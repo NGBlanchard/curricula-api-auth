@@ -1,11 +1,12 @@
-CREATE TYPE article_category AS ENUM (
-  'Listicle',
-  'How-to',
-  'News',
-  'Interview',
-  'Story'
+CREATE TYPE course_category AS ENUM (
+  'Writing',
+  'Film',
+  'Politics',
+  'Philosophy',
+  'Pop Culture',
+  'Teaching'
 );
 
-ALTER TABLE blogful_articles
+ALTER TABLE curricula_courses
   ADD COLUMN
-    style article_category;
+    topic course_category;
