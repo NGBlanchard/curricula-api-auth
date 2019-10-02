@@ -1,26 +1,121 @@
+const path = require('path')
 const express = require('express')
+const xss = require('xss')
 const CoursesService = require('./courses-service')
+const { requireAuth } = require('../middleware/jwt-auth')
 
 const coursesRouter = express.Router()
+const jsonParser = express.json()
+
+const serializeCourse = course => ({
+  id: course.id,
+  title: xss(course.title),
+  description: xss(course.description),
+  notes: xss(course.notes),
+  readings: xss(course.readings),
+  duration: xss(course.duration),
+  date_created: course.date_created,
+  topic: xss(course.topic),
+  author: course.author
+  // author: {
+  //           id: author.id,
+  //           user_name: author.user_name,
+  //           date_created: new Date(author.date_created)
+  //         },
+})
 
 coursesRouter
   .route('/')
   .get((req, res, next) => {
-    CoursesService.getAllCourses(req.app.get('db'))
+    const knexInstance = req.app.get('db')
+    CoursesService.getAllCourses(knexInstance)
       .then(courses => {
-        res.json(courses.map(CoursesService.serializeCourse))
+        res.json(courses.map(serializeCourse))
+      })
+      .catch(next)
+  })
+  .post(jsonParser, (req, res, next) => {
+    const { title, description, notes, readings, duration, date_created, topic, author } = req.body
+    const newCourse = { title, description, notes, readings, duration, date_created, topic, author }
+
+    for (const [key, value] of Object.entries(newCourse))
+      if (value == null)
+        return res.status(400).json({
+          error: { message: `Missing '${key}' in request body` }
+        })
+
+    newCourse.author = author
+    CoursesService.insertCourse(
+      req.app.get('db'),
+      newCourse
+    )
+      .then(course => {
+        res
+          .status(201)
+          .location(path.posix.join(req.originalUrl, `/${course.id}`))
+          .json(serializeCourse(course))
       })
       .catch(next)
   })
 
 coursesRouter
   .route('/:course_id')
+  .all(requireAuth)
   .all(checkCourseExists)
-  .get((req, res) => {
-    res.json(CoursesService.serializeCourse(res.course))
+  .all((req, res, next) => {
+    CoursesService.getById(
+      req.app.get('db'),
+      req.params.course_id
+    )
+      .then(course => {
+        if (!course) {
+          return res.status(404).json({
+            error: { message: `Course doesn't exist` }
+          })
+        }
+        res.course = course
+        next()
+      })
+      .catch(next)
+  })
+  .get((req, res, next) => {
+    res.json(serializeCourse(res.course))
+  })
+  .delete((req, res, next) => {
+    CoursesService.deleteCourse(
+      req.app.get('db'),
+      req.params.course_id
+    )
+      .then(numRowsAffected => {
+        res.status(204).end()
+      })
+      .catch(next)
+  })
+  .patch(jsonParser, (req, res, next) => {
+    const { title, description, botes, readings, duration, date_created, topic, author_id } = req.body
+    const courseToUpdate = { title, description, botes, readings, duration, date_created, topic, author_id }
+
+    const numberOfValues = Object.values(courseToUpdate).filter(Boolean).length
+    if (numberOfValues === 0)
+      return res.status(400).json({
+        error: {
+          message: `Request body must contain either 'content' or 'modified'`
+        }
+      })
+
+    CoursesService.updateCourse(
+      req.app.get('db'),
+      req.params.course_id,
+      courseToUpdate
+    )
+      .then(numRowsAffected => {
+        res.status(204).end()
+      })
+      .catch(next)
   })
 
-coursesRouter.route('/:course_id/comments/')
+  coursesRouter.route('/:course_id/comments/')
+  .all(requireAuth)
   .all(checkCourseExists)
   .get((req, res, next) => {
     CoursesService.getCommentsForCourse(
@@ -32,7 +127,6 @@ coursesRouter.route('/:course_id/comments/')
       })
       .catch(next)
   })
-
 /* async/await syntax for promises */
 async function checkCourseExists(req, res, next) {
   try {
@@ -40,12 +134,10 @@ async function checkCourseExists(req, res, next) {
       req.app.get('db'),
       req.params.course_id
     )
-
     if (!course)
       return res.status(404).json({
-        error: `That course doesn't exist`
+        error: `Course doesn't exist`
       })
-
     res.course = course
     next()
   } catch (error) {
@@ -53,4 +145,61 @@ async function checkCourseExists(req, res, next) {
   }
 }
 
+
 module.exports = coursesRouter
+
+
+
+
+
+// coursesRouter
+//   .route('/')
+//   .get((req, res, next) => {
+//     CoursesService.getAllCourses(req.app.get('db'))
+//       .then(courses => {
+//         res.json(courses.map(CoursesService.serializeCourse))
+//       })
+//       .catch(next)
+//   })
+
+// coursesRouter
+//   .route('/:course_id')
+//   .all(checkCourseExists)
+//   .get((req, res) => {
+//     res.json(CoursesService.serializeCourse(res.course))
+//   })
+
+// coursesRouter.route('/:course_id/comments/')
+//   .all(checkCourseExists)
+//   .get((req, res, next) => {
+//     CoursesService.getCommentsForCourse(
+//       req.app.get('db'),
+//       req.params.course_id
+//     )
+//       .then(comments => {
+//         res.json(comments.map(CoursesService.serializeCourseComment))
+//       })
+//       .catch(next)
+//   })
+
+// /* async/await syntax for promises */
+// async function checkCourseExists(req, res, next) {
+//   try {
+//     const course = await CoursesService.getById(
+//       req.app.get('db'),
+//       req.params.course_id
+//     )
+
+//     if (!course)
+//       return res.status(404).json({
+//         error: `That course doesn't exist`
+//       })
+
+//     res.course = course
+//     next()
+//   } catch (error) {
+//     next(error)
+//   }
+// }
+
+// module.exports = coursesRouter

@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
@@ -5,17 +6,24 @@ const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const coursesRouter = require('./courses/courses-router')
 const commentsRouter = require('./comments/comments-router')
+const authRouter = require('./auth/auth-router')
+const userRouter = require('./users/user-router')
+
 
 const app = express()
 
-app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common', {
-  skip: () => NODE_ENV === 'test',
-}))
-app.use(cors())
-app.use(helmet())
+const morganOption = (NODE_ENV === 'production')
+  ? 'tiny'
+  : 'common';
 
+app.use(morgan(morganOption))
+app.use(helmet())
+app.use(cors())
 app.use('/courses', coursesRouter)
 app.use('/comments', commentsRouter)
+app.use('/login', authRouter)
+app.use('/users', userRouter)
+
 
 app.get('/', (req, res) => {
   res.send('Howdy, boilerplate')
