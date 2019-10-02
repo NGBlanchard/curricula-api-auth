@@ -30,8 +30,8 @@ usersRouter
       .catch(next)
   })
   .post(jsonParser, (req, res, next) => {
-    const { title, description, notes, readings, duration, date_created, topic, author } = req.body
-    const newUser = { title, description, notes, readings, duration, date_created, topic, author }
+    const { user_name, password, date_created } = req.body
+    const newUser = { user_name, password, date_created }
 
     for (const [key, value] of Object.entries(newUser))
       if (value == null)
@@ -87,8 +87,8 @@ usersRouter
       .catch(next)
   })
   .patch(jsonParser, (req, res, next) => {
-    const { title, description, botes, readings, duration, date_created, topic, author_id } = req.body
-    const userToUpdate = { title, description, botes, readings, duration, date_created, topic, author_id }
+    const { user_name, password, date_created } = req.body
+    const userToUpdate = { user_name, password, date_created }
 
     const numberOfValues = Object.values(userToUpdate).filter(Boolean).length
     if (numberOfValues === 0)
