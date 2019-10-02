@@ -16,7 +16,7 @@ const serializeCourse = course => ({
   duration: xss(course.duration),
   date_created: course.date_created,
   topic: xss(course.topic),
-  author: course.author
+  // author: course.author
   // author: {
   //           id: author.id,
   //           user_name: author.user_name,
@@ -35,8 +35,8 @@ coursesRouter
       .catch(next)
   })
   .post(jsonParser, (req, res, next) => {
-    const { title, description, notes, readings, duration, date_created, topic, author } = req.body
-    const newCourse = { title, description, notes, readings, duration, date_created, topic, author }
+    const { title, description, notes, readings, duration, date_created, topic,  } = req.body
+    const newCourse = { title, description, notes, readings, duration, date_created, topic,  }
 
     for (const [key, value] of Object.entries(newCourse))
       if (value == null)
@@ -44,7 +44,7 @@ coursesRouter
           error: { message: `Missing '${key}' in request body` }
         })
 
-    newCourse.author = author
+    // newCourse.author = author
     CoursesService.insertCourse(
       req.app.get('db'),
       newCourse

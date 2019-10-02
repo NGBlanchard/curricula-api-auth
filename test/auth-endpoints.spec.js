@@ -6,7 +6,7 @@ const helpers = require('./test-helpers')
 describe('Auth Endpoints', function() {
   let db
 
-  const { testUsers } = helpers.makeCoursesFixtures()
+  const { testUsers } = helpers.makeArticlesFixtures()
   const testUser = testUsers[0]
 
   before('make knex instance', () => {
@@ -23,7 +23,7 @@ describe('Auth Endpoints', function() {
 
   afterEach('cleanup', () => helpers.cleanTables(db))
 
-  describe(`POST /auth/login`, () => {
+  describe(`POST /login`, () => {
     beforeEach('insert users', () =>
       helpers.seedUsers(
         db,
@@ -43,7 +43,7 @@ describe('Auth Endpoints', function() {
         delete loginAttemptBody[field]
 
         return supertest(app)
-          .post('/auth/login')
+          .post('/login')
           .send(loginAttemptBody)
           .expect(400, {
             error: `Missing '${field}' in request body`,
@@ -54,7 +54,7 @@ describe('Auth Endpoints', function() {
     it(`responds 400 'invalid user_name or password' when bad user_name`, () => {
       const userInvalidUser = { user_name: 'user-not', password: 'existy' }
       return supertest(app)
-        .post('/auth/login')
+        .post('/login')
         .send(userInvalidUser)
         .expect(400, { error: `Incorrect user_name or password` })
     })
@@ -62,7 +62,7 @@ describe('Auth Endpoints', function() {
     it(`responds 400 'invalid user_name or password' when bad password`, () => {
       const userInvalidPass = { user_name: testUser.user_name, password: 'incorrect' }
       return supertest(app)
-        .post('/auth/login')
+        .post('/login')
         .send(userInvalidPass)
         .expect(400, { error: `Incorrect user_name or password` })
     })
@@ -81,10 +81,10 @@ describe('Auth Endpoints', function() {
         }
       )
       return supertest(app)
-        .post('/auth/login')
+        .post('/login')
         .send(userValidCreds)
         .expect(200, {
-          authToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
+          authToken: expectedToken,
         })
     })
   })

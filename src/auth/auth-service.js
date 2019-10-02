@@ -8,7 +8,7 @@ const AuthService = {
       .where({ user_name })
       .first()
   },
-  async comparePasswords(password, hash) { 
+  comparePasswords(password, hash) { 
       // const match = await 
      return bcrypt.compare(password, hash)
     //   .then((result)=>{ if(result){ 

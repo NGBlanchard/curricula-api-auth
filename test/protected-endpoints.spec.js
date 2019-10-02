@@ -35,17 +35,17 @@ describe.only('Protected endpoints', function() {
   )
   const protectedEndpoints = [
     {
-      name: 'GET /api/courses/:course_id',
+      name: 'GET /courses/:course_id',
       path: '/courses/1',
       method: supertest(app).get,
     },
     {
-      name: 'GET /api/courses/:course_id/comments',
+      name: 'GET /courses/:course_id/comments',
       path: '/courses/1/comments',
       method: supertest(app).get,
     },
     {
-      name: 'POST /api/comments',
+      name: 'POST /comments',
       path: '/comments',
       method: supertest(app).post,
     },
@@ -58,18 +58,18 @@ describe.only('Protected endpoints', function() {
           .expect(401, { error: `Missing bearer token` })
       })
 
-      it(`responds 401 'Unauthorized request' when no credentials in token`, () => {
+      it(`responds 401 'Unauthorized request' when invalid JWT secret`, () => {        const validUser = testUsers[0]
         const validUser = testUsers[0]
         const invalidSecret = 'bad-secret'
         return endpoint.method(endpoint.path)
-          .set('Authorization', helpers.makeAuthHeader(validUser, invalidSecret))
-          .expect(401, { error: `Unauthorized request` })
+        .set('Authorization', helpers.makeAuthHeader(validUser, invalidSecret))
+        .expect(401, { error: `Unauthorized request` })
       })
 
-      it(`responds 401 'Unauthorized request' when invalid users`, () => {
-        const invalidUser = { user_name: 'user-not-existy', id: 1 }
-        return endpoint.method(endpoint.path)
-        .set('Authorization', helpers.makeAuthHeader(invalidUser))
+      it(`responds 401 'Unauthorized request' when invalid sub in payload`, () => {        const invalidUser = { user_name: 'user-not-existy', id: 1 }
+      const invalidUser = { user_name: 'user-not-existy', id: 1 }
+      return endpoint.method(endpoint.path)
+      .set('Authorization', helpers.makeAuthHeader(invalidUser))
           .expect(401, { error: `Unauthorized request` })
       })
     })
