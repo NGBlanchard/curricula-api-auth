@@ -1,3 +1,4 @@
-ALTER TABLE curricula_users 
-  ALTER COLUMN password 
-    VARCHAR(60);
+ALTER TABLE curricula_courses
+  ADD COLUMN
+    author_id INTEGER REFERENCES curricula_users(id)
+    ON DELETE SET NULL;

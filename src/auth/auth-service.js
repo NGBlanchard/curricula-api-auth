@@ -10,19 +10,7 @@ const AuthService = {
   },
   
   comparePasswords(password, hash) { 
-      // const match = await 
      return bcrypt.compare(password, hash)
-    //   .then((result)=>{ if(result){ 
-    //     console.log("authentication successful")
-    //    } else { console.log("authentication failed. Password doesn't match") 
-    //    } }) .catch((err)=>console.error(err))
-      
-    // return match
-  
-    //   return bcrypt.compare(password, hash, function(err, result) {
-  //     if (err) { throw (err); }
-  //     console.log(result)we
-  // })
       },
 
   createJwt(subject, payload) {

@@ -1,6 +1,5 @@
 BEGIN;
 
-
 TRUNCATE
   curricula_comments,
   curricula_courses,
@@ -9,12 +8,12 @@ TRUNCATE
 
 INSERT INTO curricula_users (user_name, password)
 VALUES
-  ('DeLillo', 'password'),
-  ('HowlingFantods', 'infinitejest'),
-  ('AliSmith', 'AutumnWinterSpring'),
-  ('Zadie', 'SwingTime'),
-  ('JJoyce', 'ulysses'),
-  ('Archimboldi', '2666');
+  ('DeLillo', '$2a$12$tNRBcZmsYfIQjAORE6LsI.OxaPvIAswiBTSGGUqu9nnscevCP5/t2'),
+  ('HowlingFantods', '$2a$12$JmL.a9lWts/F.r9OqPrn0.sf8N77UdUNEVlsSQWEqjC6lqZrexP8G'),
+  ('AliSmith', '$2a$12$E/FLLgghsmt.5HKoYy0GbOH17PD5913uHPEuWlVIM1H5CJ00WFlYa'),
+  ('Zadie', '$2a$12$TKhUJy1razGeEv6BO6iKneapzV2V99jzFW9CPVx/FGu620aDU/XWq'),
+  ('JJoyce', '$2a$12$HND1cex0AnEb2OvW35cIee06Lu9k7Vyekc09VUdpr/tUYf5Xn.EhG'),
+  ('Archimboldi', '$2a$12$VsD.W/HXu8ae0Wih8Vscr.CYSefcj2fCsByOBCxWp1UISXuZaaSV.');
 
 INSERT INTO curricula_courses (title, description, notes, readings, duration, topic, author_id)
 VALUES
