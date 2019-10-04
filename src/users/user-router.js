@@ -11,7 +11,6 @@ const { requireAuth } = require('../middleware/jwt-auth')
 const serializeUser = user => ({
   id: user.id,
   user_name: xss(user.user_name),
-  password: xss(user.password),
   date_created: user.date_created,
 })
 
