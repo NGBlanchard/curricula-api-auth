@@ -161,7 +161,7 @@ usersRouter
   .all(requireAuth)
   .all(checkUserExists)
   .all((req, res, next) => {
-    UsersService.getById(
+    UsersService.getByCurrent(
       req.app.get('db'),
       req.user.user_id
     )
