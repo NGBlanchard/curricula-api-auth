@@ -23,6 +23,7 @@ app.use('/courses', coursesRouter)
 app.use('/comments', commentsRouter)
 app.use('/login', authRouter)
 app.use('/users', userRouter)
+app.use('/loggedinuser', userRouter)
 
 
 app.get('/', (req, res) => {

@@ -40,7 +40,6 @@ authRouter
             res.send({
               authToken: AuthService.createJwt(sub, payload),
               user_name: dbUser.user_name,
-              date_created: dbUser.date_created,
             })
           })
       })
