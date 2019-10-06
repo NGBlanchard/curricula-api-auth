@@ -17,11 +17,6 @@ const serializeCourse = course => ({
   date_created: course.date_created,
   topic: xss(course.topic),
   author: course.author_id,
-  // author: {
-  //           id: author.id,
-  //           user_name: author.user_name,
-  //           date_created: new Date(author.date_created)
-  //         },
 })
 
 coursesRouter

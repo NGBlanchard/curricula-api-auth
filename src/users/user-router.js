@@ -16,6 +16,7 @@ const serializeUser = user => ({
 
 usersRouter
 .route('/')
+.all(requireAuth)
 .get((req, res, next) => {
   const knexInstance = req.app.get('db')
   UsersService.getAllUsers(knexInstance)
@@ -155,32 +156,6 @@ async function checkUserExists(req, res, next) {
     next(error)
   }
 }
-
-usersRouter
-  .route('/loggedinuser')
-  .all(requireAuth)
-  .all(checkUserExists)
-  .all((req, res, next) => {
-    UsersService.getByCurrent(
-      req.app.get('db'),
-      req.user.user_id
-    )
-      .then(user => {
-        if (!user) {
-          return res.status(404).json({
-            error: { message: `User doesn't exist` }
-          })
-        }
-        res.user = user
-        next()
-      })
-      .catch(next)
-  })
-  .get((req, res, next) => {
-    res.json(serializeUser(res.user))
-  })
-  
-
 
 module.exports = usersRouter
 

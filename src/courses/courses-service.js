@@ -4,8 +4,6 @@ const xss = require('xss')
 const CoursesService = {
   getAllCourses(knex) {
     return knex.select('*').from('curricula_courses')
-      //  .leftJoin('curricula_comments', 'curricula_courses.id', 'curricula_comments.course_id')
-      //  .leftJoin('curricula_users', 'curricula_courses.author_id', 'curricula_users.id')
   },
 
   insertCourse(knex, newCourse) {
