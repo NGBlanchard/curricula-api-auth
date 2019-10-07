@@ -55,7 +55,7 @@ coursesRouter
 
 coursesRouter
   .route('/:course_id')
-  .all(requireAuth)
+  // .all(requireAuth)
   .all(checkCourseExists)
   .all((req, res, next) => {
     CoursesService.getById(
@@ -110,7 +110,7 @@ coursesRouter
   })
 
   coursesRouter.route('/:course_id/comments/')
-  .all(requireAuth)
+  // .all(requireAuth)
   .all(checkCourseExists)
   .get((req, res, next) => {
     CoursesService.getCommentsForCourse(
