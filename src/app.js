@@ -19,8 +19,9 @@ const morganOption = (NODE_ENV === 'production')
 
 app.use(morgan(morganOption))
 app.use(helmet())
-app.use(cors())
-app.options('*', cors())
+app.use(cors({
+  origin: 'https://curricula.ngblanchard.now.sh'
+}))
 app.use('/courses', coursesRouter)
 app.use('/comments', commentsRouter)
 app.use('/login', authRouter)
