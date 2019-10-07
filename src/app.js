@@ -8,7 +8,6 @@ const coursesRouter = require('./courses/courses-router')
 const commentsRouter = require('./comments/comments-router')
 const authRouter = require('./auth/auth-router')
 const userRouter = require('./users/user-router')
-const loggedinRouter = require('./users/loggedin-router')
 
 
 
@@ -25,7 +24,7 @@ app.use('/courses', coursesRouter)
 app.use('/comments', commentsRouter)
 app.use('/login', authRouter)
 app.use('/users', userRouter)
-app.use('/loggedinuser', loggedinRouter)
+
 
 
 app.get('/', (req, res) => {

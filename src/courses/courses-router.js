@@ -16,7 +16,7 @@ const serializeCourse = course => ({
   duration: xss(course.duration),
   date_created: course.date_created,
   topic: xss(course.topic),
-  author: course.author_id,
+  author: course.author,
 })
 
 coursesRouter
@@ -30,8 +30,8 @@ coursesRouter
       .catch(next)
   })
   .post(jsonParser, (req, res, next) => {
-    const { title, description, notes, readings, duration, date_created, topic, author_id, } = req.body
-    const newCourse = { title, description, notes, readings, duration, date_created, topic, author_id, }
+    const { title, description, notes, readings, duration, date_created, topic, author, } = req.body
+    const newCourse = { title, description, notes, readings, duration, date_created, topic, author, }
 
     for (const [key, value] of Object.entries(newCourse))
       if (value == null)

@@ -36,14 +36,6 @@ const UsersService = {
       })
   },
 
-  // getByCurrent(knex, id) {
-  //   return knex
-  //     .from('curricula_users')
-  //     .select('*')
-  //     .where({ id })
-  //     .first()
-  // },
-
   getById(knex, id) {
     return knex
       .from('curricula_users')
