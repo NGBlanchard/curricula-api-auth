@@ -9,8 +9,6 @@ const commentsRouter = require('./comments/comments-router')
 const authRouter = require('./auth/auth-router')
 const userRouter = require('./users/user-router')
 
-
-
 const app = express()
 
 const morganOption = (NODE_ENV === 'production')
@@ -19,14 +17,11 @@ const morganOption = (NODE_ENV === 'production')
 
 app.use(morgan(morganOption))
 app.use(helmet())
-app.use(cors({
-  origin: 'https://curricula.ngblanchard.now.sh'
-}))
+app.use(cors())
 app.use('/courses', coursesRouter)
 app.use('/comments', commentsRouter)
 app.use('/login', authRouter)
 app.use('/users', userRouter)
-
 
 
 app.get('/', (req, res) => {

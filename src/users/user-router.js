@@ -16,7 +16,7 @@ const serializeUser = user => ({
 
 usersRouter
 .route('/')
-// .all(requireAuth)
+.all(requireAuth)
 .get((req, res, next) => {
   const knexInstance = req.app.get('db')
   UsersService.getAllUsers(knexInstance)
@@ -72,7 +72,7 @@ usersRouter
 
   usersRouter
   .route('/:user_id')
-  // .all(requireAuth)
+  .all(requireAuth)
   .all(checkUserExists)
   .all((req, res, next) => {
     UsersService.getById(
@@ -127,7 +127,7 @@ usersRouter
   })
 
   usersRouter.route('/:user_id/comments/')
-  // .all(requireAuth)
+  .all(requireAuth)
   .all(checkUserExists)
   .get((req, res, next) => {
     UsersService.getCommentsForUser(
