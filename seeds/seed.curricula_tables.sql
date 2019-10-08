@@ -15,7 +15,7 @@ VALUES
   ('JJoyce', '$2a$12$HND1cex0AnEb2OvW35cIee06Lu9k7Vyekc09VUdpr/tUYf5Xn.EhG'),
   ('Archimboldi', '$2a$12$VsD.W/HXu8ae0Wih8Vscr.CYSefcj2fCsByOBCxWp1UISXuZaaSV.');
 
-INSERT INTO curricula_courses (title, description, notes, readings, duration, topic, author_id)
+INSERT INTO curricula_courses (title, description, notes, readings, duration, topic, author)
 VALUES
   ('Fiction After the Fall', 'The second in a two-course sequence, English 102 introduces formal argumentation and college-level research methods, including synthesis of sources and citation formats. The course also reinforces and further develops the writing and reading skills learned in English 101',
   'Use in the classroom to discuss segmented narratives. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum)',
