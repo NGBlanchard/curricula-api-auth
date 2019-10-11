@@ -38,7 +38,7 @@ describe('Comments Endpoints', function() {
       const testCourse = testCourses[0]
       const testUser = testUsers[0]
       const newComment = {
-        text: 'Test new comment',
+        content: 'Test new comment',
         course_id: testCourse.id,
         user_id: testUser.id,
       }
@@ -48,7 +48,7 @@ describe('Comments Endpoints', function() {
         .expect(201)
         .expect(res => {
           expect(res.body).to.have.property('id')
-          expect(res.body.text).to.eql(newComment.text)
+          expect(res.body.content).to.eql(newComment.content)
           expect(res.body.course_id).to.eql(newComment.course_id)
           expect(res.body.user.id).to.eql(testUser.id)
           expect(res.headers.location).to.eql(`/comments/${res.body.id}`)
@@ -63,7 +63,7 @@ describe('Comments Endpoints', function() {
             .where({ id: res.body.id })
             .first()
             .then(row => {
-              expect(row.text).to.eql(newComment.text)
+              expect(row.content).to.eql(newComment.content)
               expect(row.course_id).to.eql(newComment.course_id)
               expect(row.user_id).to.eql(newComment.user_id)
               const expectedDate = new Date().toLocaleString('en', { timeZone: 'UTC' })
@@ -73,13 +73,13 @@ describe('Comments Endpoints', function() {
         )
     })
 
-    const requiredFields = ['text', 'user_id', 'course_id']
+    const requiredFields = ['content', 'user_id', 'course_id']
 
     requiredFields.forEach(field => {
       const testCourse = testCourses[0]
       const testUser = testUsers[0]
       const newComment = {
-        text: 'Test new comment',
+        content: 'Test new comment',
         user_id: testUser.id,
         course_id: testCourse.id,
       }

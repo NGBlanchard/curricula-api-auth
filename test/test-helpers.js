@@ -38,7 +38,7 @@ function makeCoursesArray(users) {
       notes: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
       readings: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
       duration: 16,
-      author_id: users[0].id,
+      author: users[0].id,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
     {
@@ -48,7 +48,7 @@ function makeCoursesArray(users) {
       notes: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
       readings: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
       duration: 16,
-      author_id: users[1].id,
+      author: users[1].id,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
     {
@@ -58,7 +58,7 @@ function makeCoursesArray(users) {
       notes: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
       readings: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
       duration: 16,
-      author_id: users[2].id,
+      author: users[2].id,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
     {
@@ -68,7 +68,7 @@ function makeCoursesArray(users) {
       notes: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
       readings: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
       duration: 16,
-      author_id: users[3].id,
+      author: users[3].id,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
   ]
@@ -128,7 +128,7 @@ function makeCommentsArray(users, courses) {
 }
 function makeExpectedCourse(users, course, comments=[]) {
   const author = users
-    .find(user => user.id === course.author_id)
+    .find(user => user.id === course.author)
   const number_of_comments = comments
     .filter(comment => comment.course_id === course.id)
     .length
@@ -177,7 +177,7 @@ function makeMaliciousCourse(user) {
     readings: 'uh oh',
     topic: 'Writing',
     date_created: new Date(),
-    author_id: user.id,
+    author: user.id,
   }
   const expectedCourse = {
     ...makeExpectedCourse([user], maliciousCourse),
