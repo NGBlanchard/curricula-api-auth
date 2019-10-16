@@ -1,6 +1,6 @@
 # Curricula
 
-This is the API for Simplefol.io. If you'd like to learn more about the site, check out the [front end repo](https://github.com/NGBlanchard/curricula-client) 
+This is the API for Curricula. If you'd like to learn more about the site, check out the [front end repo](https://github.com/NGBlanchard/curricula-client) 
  
 
 ### Technology Used
